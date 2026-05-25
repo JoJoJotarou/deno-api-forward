@@ -6,6 +6,8 @@
  *            -> https://api.openai.com/v1/chat/completions
  */
 
+import { renderHomepage } from "./homepage.ts";
+
 const ALLOWED_DOMAINS_ENV = Deno.env.get("ALLOWED_DOMAINS") ?? "";
 const ALLOWED_DOMAINS = new Set(
   ALLOWED_DOMAINS_ENV.split(",")
@@ -36,28 +38,11 @@ function jsonResponse(data: Record<string, unknown>, status: number): Response {
 }
 
 function homepage(): Response {
-  const domains =
-    ALLOWED_DOMAINS.size > 0
-      ? ALLOWED_DOMAINS_ENV.split(",")
-          .map((d: string) => d.trim())
-          .join("\n  ")
-      : "(all domains allowed)";
-  const body = `Deno API Forward Proxy
-
-URL format:
-  https://YOUR-DOMAIN/{target_host}/{path}
-
-Example:
-  curl https://api-forward.deno.dev/api.openai.com/v1/models \\
-    -H "Authorization: Bearer $OPENAI_API_KEY"
-
-Allowed domains:
-  ${domains}
-`;
+  const html = renderHomepage(ALLOWED_DOMAINS, ALLOWED_DOMAINS_ENV);
   const headers = withCors(
-    new Headers({ "Content-Type": "text/plain; charset=utf-8" }),
+    new Headers({ "Content-Type": "text/html; charset=utf-8" }),
   );
-  return new Response(body, { status: 200, headers });
+  return new Response(html, { status: 200, headers });
 }
 
 function optionsResponse(): Response {
@@ -90,8 +75,9 @@ async function proxyRequest(req: Request): Promise<Response> {
   // Parse target: /{host}/{path...}
   const targetPart = decodeURIComponent(url.pathname.slice(1)); // remove leading /
   const slashIndex = targetPart.indexOf("/");
-  const targetHost =
-    slashIndex === -1 ? targetPart : targetPart.slice(0, slashIndex);
+  const targetHost = slashIndex === -1
+    ? targetPart
+    : targetPart.slice(0, slashIndex);
   const targetPath = slashIndex === -1 ? "/" : targetPart.slice(slashIndex);
 
   if (!allowAll && !ALLOWED_DOMAINS.has(targetHost)) {
