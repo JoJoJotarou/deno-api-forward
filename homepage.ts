@@ -774,7 +774,8 @@ ${domainsList}
   </div>
 
   <footer>
-    Deno API Forward © 2026 | Built with <a href="https://deno.land" target="_blank">Deno</a>
+    Deno API Forward © 2026 | Built with <a href="https://deno.com" target="_blank">Deno</a> |
+    <a href="https://github.com/JoJoJotarou/deno-api-forward" target="_blank" >Fork on GitHub</a>
   </footer>
 </div>
 
