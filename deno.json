@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["deno.ns", "deno.unstable", "deno.window"]
+  },
+  "tasks": {
+    "dev": "deno run -A --env-file=.env main.ts",
+    "check": "deno check main.ts",
+    "fmt": "deno fmt"
+  }
+}

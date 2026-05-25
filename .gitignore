@@ -5,7 +5,12 @@
 # https://docs.deno.com/runtime/fundamentals/setup/#deno_dir
 .deno/
 
+# Environment variables
+.env
+
 # Coverage reports
 # https://docs.deno.com/runtime/reference/cli/coverage/
 coverage/
 *.lcov
+
+.claude
