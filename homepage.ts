@@ -2,16 +2,24 @@
  * HTML/CSS/JS template for the Brutalist Geek Terminal homepage.
  */
 
+const ASCII_BANNER_BASE64 =
+  "IF9fX18gIF9fX19fIF8gICBfICBfX18gICAgICAgIF8gICAgX19fXyBfX18gICBfX19fXyBfX18gIF9fX19fXyAgICAgICAgX19fICAgIF9fX18gIF9fX18gIAp8ICBfIFx8IF9fX198IFwgfCB8LyBfIFwgICAgICAvIFwgIHwgIF8gXF8gX3wgfCAgX19fLyBfIFx8ICBfIFwgXCAgICAgIC8gLyBcICB8ICBfIFx8ICBfIFwgCnwgfCB8IHwgIF98IHwgIFx8IHwgfCB8IHwgICAgLyBfIFwgfCB8XykgfCB8ICB8IHxfIHwgfCB8IHwgfF8pIFwgXCAvXCAvIC8gXyBcIHwgfF8pIHwgfCB8IHwKfCB8X3wgfCB8X19ffCB8XCAgfCB8X3wgfCAgIC8gX19fIFx8ICBfXy98IHwgIHwgIF98fCB8X3wgfCAgXyA8IFwgViAgViAvIF9fXyBcfCAgXyA8fCB8X3wgfAp8X19fXy98X19fX198X3wgXF98XF9fXy8gICAvXy8gICBcX1xffCAgfF9fX3wgfF98ICAgXF9fXy98X3wgXF9cIFxfL1xfL18vICAgXF9cX3wgXF9cX19fXy8g";
+
 export function renderHomepage(
   allowedDomains: Set<string>,
   _allowedDomainsEnv: string,
 ): string {
+  const asciiBanner = atob(ASCII_BANNER_BASE64);
+
   // Process allowed domains to render as clean list
   const hasAllowedDomains = allowedDomains.size > 0;
   const domainsList = hasAllowedDomains
-    ? Array.from(allowedDomains).map((d) =>
-      `        <span class="domain-badge"><span class="success-text">[✓]</span> ${d}</span>`
-    ).join("\n")
+    ? Array.from(allowedDomains)
+        .map(
+          (d) =>
+            `        <span class="domain-badge"><span class="success-text">[✓]</span> ${d}</span>`,
+        )
+        .join("\n")
     : `        <div class="wildcard-banner">
           <div class="warning-text">[!] WILDCARD MODE</div>
           <div class="comment-text">// No ALLOWED_DOMAINS configured in environment. The proxy allows forwarding requests to any target host.</div>
@@ -31,17 +39,17 @@ export function renderHomepage(
       --term-bg: #06090e;
       --border-color: #1a2333;
       --text-color: #a9b2c3;
-      
+
       --terminal-green: #00ff66;
       --terminal-green-dim: rgba(0, 255, 102, 0.15);
       --terminal-green-glow: rgba(0, 255, 102, 0.4);
-      
+
       --cyber-blue: #00ccff;
       --cyber-blue-dim: rgba(0, 204, 255, 0.15);
-      
+
       --amber: #ffaa00;
       --amber-dim: rgba(255, 170, 0, 0.15);
-      
+
       --danger-red: #ff3366;
     }
 
@@ -88,25 +96,25 @@ export function renderHomepage(
     /* ASCII Header styling */
     .ascii-banner {
       color: var(--terminal-green);
-      font-size: 5px;
+      font-size: 6px; /* increased for bolder visibility */
       line-height: 1.1;
       white-space: pre;
       text-shadow: 0 0 5px var(--terminal-green-glow);
       text-align: center;
-      margin: 15px 0;
+      margin: 20px 0;
       user-select: none;
       overflow: hidden;
     }
 
     @media (min-width: 480px) {
       .ascii-banner {
-        font-size: 8px;
+        font-size: 9px; /* increased from 8px */
       }
     }
 
     @media (min-width: 768px) {
       .ascii-banner {
-        font-size: 11px;
+        font-size: 12.5px; /* increased from 11px for proud deskop view */
       }
     }
 
@@ -563,32 +571,32 @@ export function renderHomepage(
     /* Hero Section and Typewriter effect */
     .hero-section {
       text-align: center;
-      margin: 10px 0 20px 0;
+      margin: 25px 0 30px 0; /* added breathing room to make Hero feel grander */
     }
 
     .hero-typewriter {
       font-family: 'Space Mono', monospace;
-      font-size: 14px;
+      font-size: 15px; /* bumped up from 14px */
       color: var(--terminal-green);
-      margin: 15px auto 5px auto;
+      margin: 18px auto 5px auto;
       background: rgba(6, 9, 14, 0.6);
       border: 1px solid var(--border-color);
-      padding: 10px 18px;
+      padding: 10px 20px;
       border-radius: 6px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       max-width: fit-content;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      min-height: 44px; /* lock height to prevent page jumps when text is deleted */
+      min-height: 46px; /* increased to prevent layout jumps with 15px font */
       box-sizing: border-box;
     }
-    
+
     .hero-typewriter #typewriter-text {
       font-weight: normal;
       color: #fff;
     }
-    
+
     .hero-typewriter .cursor {
       display: inline-block;
       width: 8px;
@@ -597,7 +605,7 @@ export function renderHomepage(
       animation: blink-cursor 0.8s infinite;
       vertical-align: middle;
     }
-    
+
     @keyframes blink-cursor {
       0%, 100% { opacity: 0; }
       50% { opacity: 1; }
@@ -614,14 +622,6 @@ export function renderHomepage(
       text-align: left;
       box-sizing: border-box;
       padding: 0 10px;
-    }
-
-    .converter-label {
-      font-size: 12px;
-      color: #57606a; /* subtle terminal code comment grey */
-      font-family: 'Space Mono', monospace;
-      padding-left: 4px;
-      letter-spacing: 0.5px;
     }
 
     .converter-input-group {
@@ -655,13 +655,7 @@ export function renderHomepage(
   <!-- Hero Section -->
   <header class="hero-section">
     <!-- Interactive Ascii Banner -->
-    <div class="ascii-banner">
- ____  _____ _   _  ___        _    ____ ___   _____ ___  ______        ___    ____  ____  
-|  _ \\| ____| \\ | |/ _ \\      / \\  |  _ \\_ _| |  ___/ _ \\|  _ \\ \\      / / \\  |  _ \\|  _ \\ 
-| | | |  _| |  \\| | | | |    / _ \\ | |_) | |  | |_ | | | | |_) \\ \\ /\\ / / _ \\ | |_) | | | |
-| |_| | |___| |\\  | |_| |   / ___ \\|  __/| |  |  _|| |_| |  _ < \\ V  V / ___ \\|  _ <| |_| |
-|____/|_____|_| \\_|\\___/   /_/   \\_\\_|  |___| |_|   \\___/|_| \\_\\ \\_/\\_/_/   \\_\\_| \\_\\____/ 
-    </div>
+    <div class="ascii-banner">${asciiBanner}</div>
 
     <!-- Typewriter Effect -->
     <div class="hero-typewriter">
@@ -670,7 +664,7 @@ export function renderHomepage(
 
     <!-- Scheme A: URL Converter -->
     <div class="converter-container">
-      <span class="converter-label">// PROXY ENDPOINT COMPILER</span>
+      <span></span>
       <div class="converter-input-group">
         <input type="text" id="raw-convert-url" class="converter-input" placeholder="e.g. https://api.openai.com/v1/chat/completions">
         <button class="btn btn-primary" id="convert-btn" onclick="convertAndCopyLink()">[ COPY PROXY ]</button>
@@ -687,16 +681,16 @@ export function renderHomepage(
         <div class="control-dot yellow"></div>
         <div class="control-dot green"></div>
       </div>
-      <div class="window-title">guest@deno-api-forward: ~ [ <span id="client-time">---</span> ]</div>
+      <div class="window-title">~ [ <span id="client-time">---</span> ]</div>
       <div class="system-status">
         <span class="status-dot"></span>
-        <span style="color: var(--terminal-green);">STATUS</span>
+        <span style="color: var(--terminal-green);">LIVE</span>
       </div>
     </div>
 
     <!-- Terminal Body -->
     <div class="terminal-body">
-      
+
       <!-- Top Section: Allowed Domains / Whitelists -->
       <div class="config-panel">
         <div class="section-title">Security & White-lists</div>
@@ -710,7 +704,7 @@ ${domainsList}
           <!-- Left Part: Interactive URL Builder -->
           <div class="builder-panel">
             <div class="section-title">Playground</div>
-            
+
             <!-- Presets Row -->
             <div style="display: flex; flex-direction: column; gap: 8px;">
               <span style="font-size: 12px; color: #8b949e;">Select Preset:</span>
@@ -780,7 +774,7 @@ ${domainsList}
   </div>
 
   <footer>
-    Deno Deploy Forwarder © 2026 | Built with <a href="https://deno.land" target="_blank">Deno Runtime</a> | Secure API Forwarding Engine
+    Deno API Forward © 2026 | Built with <a href="https://deno.land" target="_blank">Deno</a>
   </footer>
 </div>
 
@@ -971,11 +965,11 @@ ${domainsList}
     } else if (clean.startsWith('https://')) {
       clean = clean.substring(8);
     }
-    
+
     const slashIdx = clean.indexOf('/');
     const host = slashIdx === -1 ? clean : clean.substring(0, slashIdx);
     let path = slashIdx === -1 ? '' : clean.substring(slashIdx + 1);
-    
+
     return { host, path };
   }
 
@@ -983,14 +977,14 @@ ${domainsList}
   function buildParams() {
     const rawUrl = document.getElementById('target-url').value.trim();
     const { host, path } = parseTargetUrl(rawUrl);
-    
+
     const headers = getHeaders();
     const body = document.getElementById('request-body').value.trim();
-    
+
     // Base URL is the origin
     const origin = window.location.origin;
     const proxyUrl = host ? (origin + '/' + host + '/' + path) : '';
-    
+
     return { host, path, headers, body, proxyUrl };
   }
 
@@ -1010,27 +1004,27 @@ ${domainsList}
     const rawUrlInput = document.getElementById('raw-convert-url');
     const convertBtn = document.getElementById('convert-btn');
     if (!rawUrlInput || !convertBtn) return;
-    
+
     let rawUrl = rawUrlInput.value.trim();
     if (!rawUrl) return;
 
     // 1. Recursively strip protocol, currentOrigin, cleanOriginHost, and leading/trailing slashes
     const currentOrigin = window.location.origin;
     const cleanOriginHost = currentOrigin.replace('https://', '').replace('http://', '');
-    
+
     let targetPart = rawUrl;
     let cleanedSomething = true;
-    
+
     while (cleanedSomething) {
       cleanedSomething = false;
       targetPart = targetPart.trim();
-      
+
       // Strip leading slashes
       while (targetPart.startsWith('/')) {
         targetPart = targetPart.substring(1);
         cleanedSomething = true;
       }
-      
+
       // Strip current origin (e.g. http://0.0.0.0:8000)
       if (targetPart.startsWith(currentOrigin)) {
         targetPart = targetPart.substring(currentOrigin.length);
@@ -1058,7 +1052,7 @@ ${domainsList}
     const successCallback = () => {
       convertBtn.innerText = '[ COPIED! ]';
       convertBtn.classList.add('btn-copied');
-      
+
       setTimeout(() => {
         convertBtn.innerText = '[ COPY PROXY ]';
         convertBtn.classList.remove('btn-copied');
@@ -1105,7 +1099,7 @@ ${domainsList}
     const { host, path, headers, body, proxyUrl } = buildParams();
     const outputConsole = document.getElementById('console-output');
     const responseTimeBadge = document.getElementById('response-time');
-    
+
     if (!host) {
       outputConsole.innerHTML = \`<div class="output-log-item danger-text">[ERROR] Target URL is required!</div>\`;
       return;
@@ -1117,9 +1111,9 @@ ${domainsList}
       <div class="output-log-item">Via proxy: \${proxyUrl}</div>
       <div class="output-log-item info-text">// Sending HTTP \${currentMethod}...</div>
     \`;
-    
+
     responseTimeBadge.innerText = 'calculating...';
-    
+
     const requestHeaders = new Headers();
     headers.forEach(h => {
       requestHeaders.set(h.key, h.value);
@@ -1139,7 +1133,7 @@ ${domainsList}
       const res = await fetch(proxyUrl, options);
       const end = performance.now();
       const latency = Math.round(end - start);
-      
+
       responseTimeBadge.innerText = \`\${latency} ms\`;
 
       let statusColor = 'success-text';
@@ -1171,15 +1165,15 @@ ${domainsList}
       }
 
       outputHTML += \`<pre class="output-log-item" style="white-space: pre-wrap; word-break: break-all; color: #fff;">\${escapeHtml(formattedBody)}</pre>\`;
-      
+
       outputConsole.innerHTML = outputHTML;
       // Scroll output to top
       outputConsole.parentElement.scrollTop = 0;
-      
+
     } catch (err) {
       const end = performance.now();
       responseTimeBadge.innerText = \`\${Math.round(end - start)} ms\`;
-      
+
       outputConsole.innerHTML += \`
         <div class="output-log-item danger-text">[FETCH ERROR] Request failed.</div>
         <div class="output-log-item danger-text">Message: \${err.message}</div>
